@@ -182,8 +182,8 @@ async function connectDB() {
   const uri = process.env.MONGODB_URI;
   const dbName = process.env.DB_NAME || 'kindredpulse';
 
-  if (!uri || uri.includes('username:password') || uri.includes('abcde.mongodb.net')) {
-    console.log('⚡ No valid remote MONGODB_URI provided. Initializing local high-performance store...');
+  if (!uri || uri.includes('username:password') || uri.includes('<db_username>') || uri.includes('<db_password>') || uri.includes('abcde.mongodb.net')) {
+    console.log('⚡ Atlas cluster configured (cluster0.a7wsplt.mongodb.net), but awaiting your database username & password. Using local store in the meantime...');
     dbInstance = new MemoryDatabase();
     isInMemoryFallback = true;
     return dbInstance;
