@@ -8,8 +8,9 @@
 ## 🔗 Submission Details
 
 - **Live Site Link**: [https://kindredpulse-client.vercel.app](https://kindredpulse-client.vercel.app)
-- **GitHub Repository (Client)**: [https://github.com/jisan/kindredpulse-client](https://github.com/jisan/kindredpulse-client)
-- **GitHub Repository (Server)**: [https://github.com/jisan/kindredpulse-server](https://github.com/jisan/kindredpulse-server)
+- **GitHub Repository**: [https://github.com/007Jisan/kindredpulse](https://github.com/007Jisan/kindredpulse)
+- **Client Source Directory**: [https://github.com/007Jisan/kindredpulse/tree/main/client](https://github.com/007Jisan/kindredpulse/tree/main/client) (22 notable commits)
+- **Server Source Directory**: [https://github.com/007Jisan/kindredpulse/tree/main/server](https://github.com/007Jisan/kindredpulse/tree/main/server) (9 notable commits)
 
 ---
 
