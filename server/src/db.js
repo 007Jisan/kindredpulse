@@ -1,6 +1,14 @@
 const { MongoClient, ObjectId } = require('mongodb');
 const fs = require('fs');
 const path = require('path');
+const dns = require('dns');
+
+// Configure reliable DNS servers to prevent Windows querySrv ECONNREFUSED
+try {
+  dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+} catch {
+  // Ignore if custom dns servers cannot be set
+}
 
 let dbInstance = null;
 let clientInstance = null;

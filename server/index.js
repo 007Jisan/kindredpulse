@@ -125,8 +125,20 @@ async function startServer() {
       console.log(`✅ Seeded ${seedData.length} events successfully.`);
     }
 
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 KindredPulse Server running on http://localhost:${PORT}`);
+    });
+
+    server.on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        const altPort = 5001;
+        console.log(`Port ${PORT} in use, switching to alternate port ${altPort}...`);
+        app.listen(altPort, '0.0.0.0', () => {
+          console.log(`🚀 KindredPulse Server running on http://localhost:${altPort}`);
+        });
+      } else {
+        console.error('Server listen error:', err);
+      }
     });
   } catch (err) {
     console.error('Failed to initialize server:', err);
