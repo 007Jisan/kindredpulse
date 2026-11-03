@@ -69,3 +69,14 @@ npm install
 npm run dev
 ```
 The server will start on `http://localhost:5000`.
+
+---
+
+## ⚡ Deploying to Vercel
+1. Import this `server` repository into Vercel.
+2. Under **Environment Variables**, add:
+   - `MONGODB_URI`: `mongodb+srv://<user>:<password>@cluster0.a7wsplt.mongodb.net/kindredpulse?retryWrites=true&w=majority`
+   - `DB_NAME`: `kindredpulse`
+   - `JWT_SECRET`: your secret string
+   - `CLIENT_URL`: your client's Vercel URL
+3. Deploy! Vercel will automatically route all requests through `vercel.json` and `api/index.js`.

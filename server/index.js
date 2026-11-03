@@ -35,6 +35,23 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+// Middleware ensuring DB connection and seed availability across serverless invocations
+app.use(async (req, res, next) => {
+  try {
+    const db = await connectDB();
+    const eventsCollection = db.collection('events');
+    const existingEventsCount = await eventsCollection.countDocuments();
+    if (existingEventsCount === 0) {
+      const seedData = getSeedEvents();
+      await eventsCollection.insertMany(seedData);
+    }
+    next();
+  } catch (err) {
+    console.error('Database connection middleware error:', err);
+    next();
+  }
+});
+
 // Root test route
 app.get('/', (req, res) => {
   res.json({
@@ -146,6 +163,11 @@ async function startServer() {
   }
 }
 
-startServer();
+if (!process.env.VERCEL) {
+  startServer();
+} else {
+  // On Vercel serverless platform
+  connectDB().catch(console.error);
+}
 
 module.exports = app;

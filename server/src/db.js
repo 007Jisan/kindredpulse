@@ -169,7 +169,9 @@ class MemoryCollection {
 
 class MemoryDatabase {
   constructor() {
-    const storageDir = path.join(__dirname, '../.data');
+    const storageDir = process.env.VERCEL
+      ? path.join('/tmp', '.data')
+      : path.join(__dirname, '../.data');
     this.collections = {
       users: new MemoryCollection('users', path.join(storageDir, 'users.json')),
       events: new MemoryCollection('events', path.join(storageDir, 'events.json')),
@@ -179,7 +181,9 @@ class MemoryDatabase {
 
   collection(name) {
     if (!this.collections[name]) {
-      const storageDir = path.join(__dirname, '../.data');
+      const storageDir = process.env.VERCEL
+        ? path.join('/tmp', '.data')
+        : path.join(__dirname, '../.data');
       this.collections[name] = new MemoryCollection(name, path.join(storageDir, `${name}.json`));
     }
     return this.collections[name];
@@ -187,6 +191,10 @@ class MemoryDatabase {
 }
 
 async function connectDB() {
+  if (dbInstance) {
+    return dbInstance;
+  }
+
   const uri = process.env.MONGODB_URI;
   const dbName = process.env.DB_NAME || 'kindredpulse';
 

@@ -1,6 +1,21 @@
 import { EventItem, JoinedEvent, User, EventDetailResponse } from './types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+function getApiBaseUrl(): string {
+  // 1. Explicit public URL if configured
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL;
+  }
+  // 2. Vercel internal service binding for server-side fetches
+  if (process.env.INTERNAL_API_URL) {
+    return process.env.INTERNAL_API_URL;
+  }
+  // 3. Browser environment on Vercel (same-origin relative URL)
+  if (typeof window !== 'undefined') {
+    return '';
+  }
+  // 4. Default local development server fallback
+  return 'http://localhost:5000';
+}
 
 function getToken(): string | null {
   if (typeof window === 'undefined') return null;
@@ -27,7 +42,8 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const url = `${API_BASE_URL}${endpoint}`;
+  const baseUrl = getApiBaseUrl();
+  const url = `${baseUrl}${endpoint}`;
   const response = await fetch(url, {
     ...options,
     headers,
